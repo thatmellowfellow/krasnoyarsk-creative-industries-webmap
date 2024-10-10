@@ -1,10 +1,11 @@
 .leaflet-top.leaflet-left {
     height: 100%;
     transition: transform 0.33s ease-in;
+    transform: translateX(-100%);
 }
 
-.leaflet-control-layers-container-hidden {
-    transform: translateX(-90%);
+.leaflet-control-layers-container-visible {
+    transform: translateX(0%) !important;
 }
 
 .leaflet-control-layers {
@@ -30,6 +31,7 @@
     height: 50px;
     width: auto;
 }
+
 .icon-left {
     transform: rotateY(180deg);
     margin-right: 15px;
@@ -43,18 +45,27 @@
     border-left: 2px solid black;
 }
 
+.leaflet-control-layers-header-openbutton {
+    display: block;
+    position: absolute;
+    font-size: 1.33rem;
+    top: 20px;
+    left: 10px;
+    z-index: 999;
+}
+
 .leaflet-control-layers-header-closebutton {
     margin-left: auto;
 }
 
-.leaflet-control-layers-header-closebutton > img {
+.leaflet-control-layers-header-closebutton>img {
     display: block;
     width: auto;
     height: 16px;
     transition: transform 0.33s ease-in-out;
 }
 
-.leaflet-control-layers-header-closebutton-flipped > img {
+.leaflet-control-layers-header-closebutton-flipped>img {
     transform: rotateY(180deg);
 }
 
@@ -63,19 +74,20 @@
     width: 100%;
 }
 
-.leaflet-control-layers-overlays > label:hover {
-    background: rgba(0,0,0,0.02);
+.leaflet-control-layers-overlays>label:hover {
+    background: rgba(0, 0, 0, 0.02);
     cursor: pointer;
 }
+
 .leaflet-control-layers-list input {
     cursor: pointer;
 }
 
-.leaflet-control-layers-list input + span {
+.leaflet-control-layers-list input+span {
     margin-left: 5px;
 }
 
-.leaflet-control-layers-list input:checked ~ .leaflet-control-layer-legend {
+.leaflet-control-layers-list input:checked~.leaflet-control-layer-legend {
     display: block;
 }
 
@@ -84,11 +96,11 @@
     margin-left: -1.75rem;
 }
 
-.leaflet-control-layers-overlays .leaflet-control-layer-legend > table > tbody > tr > td:has(> img) {
+.leaflet-control-layers-overlays .leaflet-control-layer-legend>table>tbody>tr>td:has(> img) {
     width: 36px;
 }
 
-.leaflet-control-layers-overlays .leaflet-control-layer-legend > table > tbody > tr > td > img {
+.leaflet-control-layers-overlays .leaflet-control-layer-legend>table>tbody>tr>td>img {
     width: 26px;
     height: 18px;
 }

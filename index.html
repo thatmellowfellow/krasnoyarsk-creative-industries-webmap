@@ -16,6 +16,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
+    <!--Font awesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!--jquery and leaflet ajax-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js"></script>
@@ -34,8 +38,11 @@
 
 <body>
     <div id="mapid"></div>
+    <button type='button' title='Слои' aria-label="Слои" id='layers-panel-open-button'
+        class='leaflet-control-layers-header-openbutton btn btn-light btn-sm'><i
+            class="fa-solid fa-layer-group"></i></button>
     <div class="v-infobox">
-        <button id="v-infobox-closebutton">&times;</button>
+        <button id="v-infobox-closebutton"><i class="fa-solid fa-xmark"></i></button>
         <!--<div id="v-infobox_gallery_container">
                 <div id="v-infobox_gallery_contents">
                     <div id="v-infobox_gallery_item"></div>
@@ -338,10 +345,19 @@
                     //Картинка "нет фото" при отсутствии фото
                     //document.getElementsByClassName('v-infobox-image')[0].setAttribute("onerror", "this.src='sourcedata/noimage.jpg'")
                     //document.getElementsByClassName('v-infobox-image')[0].src = 'sourcedata/streets/' + e.layer.feature.properties.id + '/header.jpg';
-                    //Заголовок всплывающего окна
-                    document.getElementById('v-infobox-title').innerHTML = e.layer.feature.properties.title;
-                    //document.getElementById('v-infobox_text').innerHTML = fillInfoBoxDescription(e.layer.feature.properties.id).splitTxtDesc();
-                    //Описание во всплывающем окне
+                    //Заголовок и описание во всплывающем окнк
+                    let type_status_txt = ''
+                    if (e.layer.feature.properties.type != null) { type_status_txt = `${e.layer.feature.properties.type}. ` }
+                    if (e.layer.feature.properties.status != null) { type_status_txt += `${e.layer.feature.properties.status}. ` }
+                    //type_status_txt = `${e.layer.feature.properties.type}. ${e.layer.feature.properties.status}.`
+                    if (e.layer.feature.properties.title != null) {
+                        document.getElementById('v-infobox-title').innerHTML = e.layer.feature.properties.title;
+                        //document.getElementById('v-infobox-text').innerHTML = fillInfoBoxDescription(e.layer.feature.properties.id).splitTxtDesc()
+                        document.getElementById('v-infobox-text').innerHTML = type_status_txt;
+                    } else {
+                        document.getElementById('v-infobox-title').innerHTML = type_status_txt;
+                        document.getElementById('v-infobox-text').innerHTML = '';
+                    }
                     if (e.layer.feature.properties.description) {
                         document.getElementById('v-infobox-text').innerHTML = '<p>' + e.layer.feature.properties.description.replace(/\n/g, '<p></p>') + '</p>';
                     }

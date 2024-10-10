@@ -17,7 +17,7 @@ export function modifyLayersPanel() {
 
     //Делаем подписи
     let layersPanelHeaderHTML =
-        "<div class='leaflet-control-layers-header-container'><img src='../sourcedata/logos/bike_icon2.svg' class='leaflet-control-layers-header-icon icon-left'/><img src='../sourcedata/logos/spb_gerb.svg' class='leaflet-control-layers-header-icon icon-right'/><h4 class='leaflet-control-layers-header'>Велоинфраструктура<br/>Санкт-Петербурга</h4><button type='button' aria-label='Закрыть' id='layers-panel-close-button' class='leaflet-control-layers-header-closebutton leaflet-control-layers-header-closebutton-flipped btn btn-light btn-sm'><img src='../sourcedata/logos/close_arrow.svg'/></button></div>";
+        "<div class='leaflet-control-layers-header-container'><img src='../sourcedata/logos/bike_icon2.svg' class='leaflet-control-layers-header-icon icon-left'/><img src='../sourcedata/logos/spb_gerb.svg' class='leaflet-control-layers-header-icon icon-right'/><h4 class='leaflet-control-layers-header'>Велоинфраструктура<br/>Санкт-Петербурга</h4><button type='button' aria-label='Закрыть' id='layers-panel-close-button' class='leaflet-control-layers-header-closebutton leaflet-control-layers-header-closebutton-flipped btn btn-light btn-sm'><i class=\"fa-solid fa-xmark\"></button></div>";
     basemapsGroup.insertAdjacentHTML(
         "afterbegin",
         "<h6>Картографическая основа</h6>"
@@ -31,16 +31,23 @@ export function modifyLayersPanel() {
     layersList.insertBefore(overlaysGroup, basemapsGroup);
     layersList.insertBefore(layersSep, basemapsGroup);
 
+    //Добавляем функционал кнопке открытия
+    let layersPanelOpenBtn = document.getElementById(
+        "layers-panel-open-button"
+    );
+    layersPanelOpenBtn.onclick = (e) => {
+        layersContainer.classList.add(
+            "leaflet-control-layers-container-visible"
+        );
+    };
+
     //Добавляем функционал кнопке закрытия
     let layersPanelCloseBtn = document.getElementById(
         "layers-panel-close-button"
     );
     layersPanelCloseBtn.onclick = (e) => {
-        layersContainer.classList.toggle(
-            "leaflet-control-layers-container-hidden"
-        );
-        layersPanelCloseBtn.classList.toggle(
-            "leaflet-control-layers-header-closebutton-flipped"
+        layersContainer.classList.remove(
+            "leaflet-control-layers-container-visible"
         );
     };
 
