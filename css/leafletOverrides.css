@@ -1,0 +1,16 @@
+.leaflet-container {
+    line-height: 1.75;
+}
+
+.leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar {
+    border: none!important;
+    border-radius: 0;
+}
+
+/*div:has(> .leaflet-control-zoom) {
+    top: 50%;
+}*/
+
+.leaflet-attribution-flag {
+    display: none!important;
+}

@@ -1,0 +1,70 @@
+.v-infobox {
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    min-width: 320px;
+    max-width: 510px;
+    background-color: white;
+    z-index: 401;
+    overflow-y: auto;
+    transform: translate(100%, 0);
+    transition: 400ms ease;
+}
+
+.v-infobox-open {
+    transform: translate(0, 0);
+}
+
+.v-infobox-img-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.v-infobox-image {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    max-height: 400px;
+}
+
+#v-infobox-text-contents {
+    margin: 24px;
+}
+
+#v-infobox-title-container {
+    display: flex;
+    width: 100%;
+    margin: auto;
+}
+
+#v-infobox-title-container > p {
+    margin: auto;
+    text-align: center;
+}
+
+#v-infobox-closebutton {
+    display: block;
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    background: white;
+    border: none;
+    font-weight: bold;
+    font-size: 16px;
+    margin: 0;
+    color: black;
+    outline: none;
+    padding: 0 7px 2px;
+    border-radius: 50%;
+    z-index: 69;
+}
+
+#v-infobox-closebutton:hover {
+    cursor: pointer;
+    color: gray;
+}
+

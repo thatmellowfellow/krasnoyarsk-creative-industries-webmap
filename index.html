@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Leaflet library and styles-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <!--Bootstrap 5-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <!--jquery and leaflet ajax-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js"></script>
+    <!--Leaflet tiles providers-->
+    <script src="js/leaflet-providers.js"></script>
+    <!--Styles-->
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/infoBox.css" />
+    <link rel="stylesheet" href="css/layersPanel.css" />
+    <link rel="stylesheet" href="css/leafletOverrides.css" />
+    <link rel="stylesheet" href="css/bootstrapOverrides.css" />
+    <!--Title and tab icon-->
+    <title>Велоинфраструктура Санкт-Петербурга</title>
+    <link rel="icon" href="sourcedata/logos/bike_icon.png" />
+</head>
+
+<body>
+    <div id="mapid"></div>
+    <div class="v-infobox">
+        <button id="v-infobox-closebutton">&times;</button>
+        <!--<div id="v-infobox_gallery_container">
+                <div id="v-infobox_gallery_contents">
+                    <div id="v-infobox_gallery_item"></div>
+                </div>
+                <div id="v-infobox_gallery_buttons_container">
+                    <span class="v-infobox-slideshow-button infoBox-slideshow-button-left">❮</span>
+                    <span class="v-infobox-slideshow-button infoBox-slideshow-button-right">❯</span>
+
+                </div>
+            </div>-->
+        <div class="v-infobox-img-container">
+            <!-- <img class="v-infobox-image" src="" onerror="this.src='sourcedata/noimage.jpg'" /> -->
+            <div id="carouselIndicators" class="carousel slide" data-bs-interval="750000" data-bs-touch="true"
+                data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="0" class="active"
+                        aria-current="true" aria-label="Слайд 1">
+                    </button>
+                    <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="1"
+                        aria-label="Слайд 2">
+                    </button>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="" class="d-block">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselIndicators"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Предыдущее</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselIndicators"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Следующее</span>
+                </button>
+            </div>
+        </div>
+        <div id="v-infobox-text-contents">
+            <div id="v-infobox-title-container">
+                <h2 id="v-infobox-title"></h2>
+            </div>
+            <div id="v-infobox-text"></div>
+        </div>
+    </div>
+
+    <script type="module">
+        //Импортируем функции из модулей
+        import { styleFeatures, styleFeatures_simple } from './js/modules/styleFeatures.js'
+        //import { highlight, dehighlight, select } from './js/modules/featuresInteractions.js'
+        import { getData } from './js/modules/getData.js'
+        import { fillInfoBoxDescription } from './js/modules/fillInfoboxDescription.js'
+        import { modifyLayersPanel } from './js/modules/modifyLayersPanel.js'
+
+        //Наведение, клик, деклик на выбранный объект
+        function highlight(layer) {
+            let geomType = layer.feature.geometry.type.toLowerCase();
+            //Если линейный объект
+            if (~geomType.indexOf('line')) {
+                layer.setStyle({
+                    weight: 6
+                });
+                //Если полигональный объект
+            } else if (~geomType.indexOf('polygon')) {
+                layer.setStyle({
+                    fillOpacity: 1
+                });
+            }
+            if (!L.Browser.ie && !L.Browser.opera) {
+                layer.bringToFront();
+            }
+        }
+        function dehighlight(layer, lyrId) {
+            if (selected === null || selected._leaflet_id !== layer._leaflet_id) {
+                //Не работает при переключении между слоями
+                //geoData[lyrId].resetStyle(layer);
+                let geomType = layer.feature.geometry.type.toLowerCase();
+                //Если линейный объект
+                if (~geomType.indexOf('line')) {
+                    layer.setStyle({
+                        weight: 2
+                    });
+                    //Если полигональный объект
+                } else if (~geomType.indexOf('polygon')) {
+                    layer.setStyle({
+                        fillOpacity: 0.75
+                    });
+                }
+            }
+        }
+        function select(layer, lyrId) {
+            if (selected !== null) {
+                var previous = selected;
+            }
+            map.fitBounds(layer.getBounds(), { 'paddingBottomRight': [540, 160] });
+            selected = layer;
+            if (previous) {
+                dehighlight(previous, lyrId);
+            }
+        }
+        //По-хорошему надо поменять
+        let selected = null;
+
+        // Загружаем файл конфигурации карты. Переменную делаем глобальной, чтобы она была видна во всех модулях
+        window.cfg = getData('js/cfg/mapconfig.json');
+
+        //Название сайта
+        document.title = cfg.website_title;
+
+        // Подложки в контроль слоёв
+        let basemaps = {}
+        for (let b in cfg.basemaps) {
+            basemaps[cfg.basemaps[b]] = L.tileLayer.provider(cfg.basemaps[b]);
+        }
+
+        // Создаём карту, ставим начальное положение и масштаб, мин. и макс. масштаб, охват; загружаем подложки
+        // Подложка по умолчанию - первая в списке в файле конфига
+        let map = L.map('mapid', {
+            layers: [basemaps[Object.keys(basemaps)[0]]],
+            maxBounds: L.latLngBounds(cfg.extent[0], cfg.extent[1]),
+            minZoom: cfg.minZoom,
+            maxZoom: cfg.maxZoom,
+            zoomControl: false
+        }).setView(cfg.center, cfg.zoom);
+
+
+        //Кнопки масштаба
+        L.control.zoom({
+            position: 'bottomright'
+        }).addTo(map);
+
+        L.Control.goHome = L.Control.extend({
+            onAdd: (map) => {
+
+            }
+        })
+
+        //Панель слоёв, сразу настраиваем сортировку по порядку в конфиге
+        let layerControl = L.control.layers(basemaps, null, {
+            collapsed: false,
+            position: 'topleft',
+            sortLayers: true,
+            sortFunction: (layerA, layerB, nameA, nameB) => {
+                // Если это слой, а не подложка
+                if (layerA.urls) {
+                    let layerA_Index = cfg.layers.findIndex(function (element) {
+                        if (element.name == nameA) {
+                            return true
+                        }
+                    });
+                    let layerB_Index = cfg.layers.findIndex(function (element) {
+                        if (element.name == nameB) {
+                            return true
+                        }
+                    });
+                    return layerA_Index - layerB_Index
+                } else {
+                    return 0
+                }
+            }
+        }).addTo(map);
+
+        //Масштабная линейка
+        L.control.scale({ maxWidth: 200, imperial: false }).addTo(map);
+        //Делаем единицы измерения в масштабной линейке на русском
+        let scale = document.getElementsByClassName('leaflet-control-scale-line')[0];
+        scale.textContent = scale.textContent.replace('km', 'км').replace('m', 'м');
+        ['load', 'move', 'zoomend'].forEach(event => {
+            map.on(event, (e) => {
+                scale.textContent = scale.textContent.replace('km', 'км').replace('m', 'м');
+            });
+        });
+
+
+        //Загружаем geojson с велоинфраструктурой и задаём систему условных обозначений
+        let geoData = [];
+        for (let lyrId in cfg.layers) {
+            //console.log(cfg.layers[lyrId].name + ', ' + cfg.layers[lyrId].source + ' ' + lyrId);
+            let pathToLyr = 'sourcedata/mylayers/' + cfg.layers[lyrId].source;
+            geoData[lyrId] = new L.GeoJSON.AJAX(pathToLyr, {
+                style: (feature) => {
+                    return styleFeatures(feature, cfg.layers[lyrId].style);
+                },
+                //Настраиваем интерактивность
+                onEachFeature: (feature, layer) => {
+                    if (cfg.layers[lyrId].popup) {
+                        layer.bindPopup(`<span><b>Количество маршрутов, воспринимаемых положительно:</b> ${feature.properties.count_good}<br>
+                        <b>Количество маршрутов, воспринимаемых отрицательно:</b> ${feature.properties.count_bad}</span>`);
+                    }
+                    layer.on({
+                        'mouseover': (e) => {
+                            highlight(e.target);
+                        },
+                        'mouseout': (e) => {
+                            dehighlight(e.target, lyrId);
+                        },
+                        'click': (e) => {
+                            if (cfg.layers[lyrId].infobox) {
+                                select(e.target, lyrId);
+                            }
+                        }
+                    });
+                }
+            });
+            geoData[lyrId].on('data:loaded', () => {
+                layerControl.addOverlay(geoData[lyrId], cfg.layers[lyrId].name);
+                //Модифицируем панель слоёв
+                modifyLayersPanel();
+                //Если в конфиге прописано отображения по умолчанию, то отображаем
+                if (cfg.layers[lyrId].onByDef) geoData[lyrId].addTo(map);
+            });
+
+            //Навешиваем интерактивность на объекты: всплывающее окно
+            geoData[lyrId].on('click', (e) => {
+                if (cfg.layers[lyrId].infobox) {
+                    //Путь к папке с изображениями для объекта
+                    let imagesFolder = `sourcedata/featuredata/layers/${lyrId}/${e.layer.feature.properties.id}/`;
+                    //Массив источников фотографий
+                    let imagesSources = [];
+                    //Получаем данные из папки
+                    $.ajax({
+                        url: imagesFolder,
+                        success: function (res) {
+                            let data = $(res).find('a');
+                            for (let i = 0; i < data.length; i++) {
+                                let dataHref = data[i].getAttribute("href");
+                                //Если запись в данных - название файла картинки, то записываем в массив
+                                if (dataHref.match(/\.(jpe?g|png|gif)$/)) {
+                                    imagesSources.push(dataHref);
+                                    //document.getElementsByClassName('v-infobox-image')[0].src = imgSrc;
+                                }
+                            }
+
+                        },
+                        async: false
+                    });
+
+                    let slidesContainer = document.getElementsByClassName('carousel-inner')[0];
+                    let slides = slidesContainer.getElementsByClassName('carousel-item');
+                    let images = document.querySelectorAll('.carousel-item > img');
+                    let carouselIndicators = document.getElementsByClassName('carousel-indicators')[0];
+                    let carouselControls = document.querySelectorAll('#carouselIndicators > button');
+                    //Очищаем галерею, кроме первого слайда
+                    for (let i = 0; i < slides.length; i++) {
+                        if (i == 0) slides[i].classList.add('active')
+                        else slides[i].remove();
+                    }
+                    //Удаляем индикаторы
+                    carouselIndicators.innerHTML = null;
+                    // Если массив не пустой, то генерируем DOM слайдшоу
+                    if (imagesSources.length > 0) {
+                        imagesSources.forEach((value, index, array) => {
+                            //Делаем картинки
+                            if (index == 0) {
+                                images[0].src = value;
+                            } else {
+                                let slide = document.createElement('div');
+                                slide.classList.add('carousel-item');
+                                let image = document.createElement('img');
+                                image.src = value;
+                                image.classList.add('d-block');
+                                slide.appendChild(image);
+                                slidesContainer.appendChild(slide);
+                            }
+                            //Если картинка одна, то убираем управление
+                            if (imagesSources.length == 1) {
+                                carouselControls.forEach((btn) => { btn.classList.add('d-none'); })
+                            }
+                            //Если картинок больше, чем 1, то добавляем управление
+                            else if (imagesSources.length > 1) {
+                                //Делаем кнопки для слайдшоу снизу
+                                let indicator = document.createElement('button');
+                                indicator.setAttribute('type', 'button');
+                                indicator.setAttribute('data-bs-target', '#carouselIndicators');
+                                indicator.setAttribute('data-bs-slide-to', String(index));
+                                indicator.setAttribute('aria-label', 'Слайд ' + String(index + 1));
+                                if (index == 0) {
+                                    indicator.classList.add('active');
+                                    indicator.setAttribute('aria-current', 'true');
+                                }
+                                carouselIndicators.appendChild(indicator);
+                                //Убираем display: none для всех кнопок
+                                carouselControls.forEach((btn) => { btn.classList.remove('d-none'); });
+                            }
+                        });
+                    }
+                    // Если массив пустой, то вставляем картинку "нет фото" и убираем управление слайдшоу
+                    else {
+                        images[0].src = 'sourcedata/noimage.jpg';
+                        carouselControls.forEach((value) => { value.classList.add('d-none'); })
+                    }
+                    //Путь к логотипу, который по умолчанию при отсутствии фото
+                    //let pathToLogo = 'sourcedata/logos/' + cfg.layers[lyrId].logo;
+                    //document.getElementsByClassName('v-infobox-image')[0].src = pathToLogo;
+                    //Картинка "нет фото" при отсутствии фото
+                    //document.getElementsByClassName('v-infobox-image')[0].setAttribute("onerror", "this.src='sourcedata/noimage.jpg'")
+                    //document.getElementsByClassName('v-infobox-image')[0].src = 'sourcedata/streets/' + e.layer.feature.properties.id + '/header.jpg';
+                    //Заголовок всплывающего окна
+                    document.getElementById('v-infobox-title').innerHTML = e.layer.feature.properties.title;
+                    //document.getElementById('v-infobox_text').innerHTML = fillInfoBoxDescription(e.layer.feature.properties.id).splitTxtDesc();
+                    //Описание во всплывающем окне
+                    if (e.layer.feature.properties.description) {
+                        document.getElementById('v-infobox-text').innerHTML = '<p>' + e.layer.feature.properties.description.replace(/\n/g, '<p></p>') + '</p>';
+                    }
+                    document.getElementsByClassName('v-infobox')[0].classList.add('v-infobox-open');
+                    document.getElementsByClassName('v-infobox')[0].scrollTop = 0;
+                }
+            });
+        }
+
+        //Всплывающее окно
+        document.getElementById('v-infobox-closebutton').onclick = () => { document.getElementsByClassName('v-infobox')[0].classList.remove('v-infobox-open'); }
+
+    </script>
+
+</body>
+
+</html>
