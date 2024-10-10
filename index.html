@@ -131,7 +131,11 @@
             if (selected !== null) {
                 var previous = selected;
             }
-            map.fitBounds(layer.getBounds(), { 'paddingBottomRight': [540, 160] });
+            if (window.innerWidth > 992) {
+                map.fitBounds(layer.getBounds(), { 'paddingBottomRight': [576, 160] });
+            } else {
+                map.fitBounds(layer.getBounds());
+            }
             selected = layer;
             if (previous) {
                 dehighlight(previous, lyrId);
