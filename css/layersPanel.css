@@ -1,7 +1,11 @@
 .leaflet-top.leaflet-left {
-    height: 100%;
+    /*height: 100%;*/
     transition: transform 0.33s ease-in;
-    transform: translateX(-100%);
+    transform: translateX(calc(-100% - 10px));
+}
+
+.leaflet-control-layers-container {
+    margin: 10px;
 }
 
 .leaflet-control-layers-container-visible {
@@ -9,10 +13,17 @@
 }
 
 .leaflet-control-layers {
-    height: 100%;
+    max-height: 100vh;
+    max-width: 95vw;
     width: 460px;
-    padding: 0 0 0 1.25rem;
+    padding: 0 0 10px 20px;
     margin: 0 !important;
+}
+
+@media screen and (max-width: 576px) {
+    .leaflet-control-layers-header {
+        font-size: 1rem;
+    }
 }
 
 .leaflet-control-layers-header-container {

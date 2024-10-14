@@ -2,6 +2,7 @@ import { legendLayers } from "./legend.js";
 
 export function modifyLayersPanel() {
     let layersContainer = document.querySelector(".leaflet-top.leaflet-left");
+    layersContainer.classList.add("leaflet-control-layers-container");
     let layersList = document.getElementsByClassName(
         "leaflet-control-layers-list"
     )[0];
