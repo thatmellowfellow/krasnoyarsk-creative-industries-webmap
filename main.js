@@ -77,7 +77,7 @@ let map = L.map("mapid", {
 //Кнопки масштаба
 L.control
     .zoom({
-        position: "bottomright",
+        position: "topright",
     })
     .addTo(map);
 
