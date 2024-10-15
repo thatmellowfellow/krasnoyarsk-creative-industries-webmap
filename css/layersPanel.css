@@ -53,9 +53,11 @@
     display: block;
     position: absolute;
     font-size: 1.33rem;
-    top: 20px;
+    top: 10px;
     left: 10px;
     z-index: 999;
+    border-radius: 0;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, .35)
 }
 
 .leaflet-control-layers-header-closebutton {
