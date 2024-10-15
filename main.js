@@ -106,12 +106,12 @@ let layerControl = L.control
         sortFunction: (layerA, layerB, nameA, nameB) => {
             // Если это слой, а не подложка
             if (layerA.urls) {
-                let layerA_Index = cfg.layers.findIndex(function (element) {
+                let layerA_Index = cfg.layers.findIndex((element) => {
                     if (element.name == nameA) {
                         return true;
                     }
                 });
-                let layerB_Index = cfg.layers.findIndex(function (element) {
+                let layerB_Index = cfg.layers.findIndex((element) => {
                     if (element.name == nameB) {
                         return true;
                     }
@@ -149,7 +149,10 @@ for (let lyrId in cfg.layers) {
     let pathToLyr = "sourcedata/mylayers/" + cfg.layers[lyrId].source;
     // Если нужны кластеры маркеров, то инициализируем
     if (cfg.layers[lyrId].markersCluster) {
-        markersClusters[lyrId] = L.markerClusterGroup();
+        markersClusters[lyrId] = L.markerClusterGroup({
+            showCoverageOnHover: false,
+            disableClusteringAtZoom: 17,
+        });
     }
     geoData[lyrId] = new L.GeoJSON.AJAX(pathToLyr, {
         // Стилизация точечного слоя
