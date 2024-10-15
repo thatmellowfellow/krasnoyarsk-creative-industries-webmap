@@ -102,14 +102,10 @@
         function highlight(layer) {
             let geomType = layer.feature.geometry.type.toLowerCase();
             //Если линейный объект
-            if (~geomType.indexOf('line')) {
+            if (~geomType.indexOf('polygon')) {
                 layer.setStyle({
-                    weight: 6
-                });
-                //Если полигональный объект
-            } else if (~geomType.indexOf('polygon')) {
-                layer.setStyle({
-                    fillOpacity: 1
+                    fillOpacity: 0.15,
+                    weight: 4
                 });
             }
             if (!L.Browser.ie && !L.Browser.opera) {
@@ -122,14 +118,10 @@
                 //geoData[lyrId].resetStyle(layer);
                 let geomType = layer.feature.geometry.type.toLowerCase();
                 //Если линейный объект
-                if (~geomType.indexOf('line')) {
+                if (~geomType.indexOf('polygon')) {
                     layer.setStyle({
+                        fillOpacity: 0,
                         weight: 2
-                    });
-                    //Если полигональный объект
-                } else if (~geomType.indexOf('polygon')) {
-                    layer.setStyle({
-                        fillOpacity: 0.75
                     });
                 }
             }
@@ -170,7 +162,8 @@
             maxBounds: L.latLngBounds(cfg.extent[0], cfg.extent[1]),
             minZoom: cfg.minZoom,
             maxZoom: cfg.maxZoom,
-            zoomControl: false
+            zoomControl: false,
+            zoomSnap: 0.25
         }).setView(cfg.center, cfg.zoom);
 
 
@@ -234,8 +227,7 @@
                 //Настраиваем интерактивность
                 onEachFeature: (feature, layer) => {
                     if (cfg.layers[lyrId].popup) {
-                        layer.bindPopup(`<span><b>Количество маршрутов, воспринимаемых положительно:</b> ${feature.properties.count_good}<br>
-                        <b>Количество маршрутов, воспринимаемых отрицательно:</b> ${feature.properties.count_bad}</span>`);
+                        layer.bindTooltip(feature.properties.name, { direction: 'center', className: 'bounds-tooltip' }).openTooltip();
                     }
                     layer.on({
                         'mouseover': (e) => {

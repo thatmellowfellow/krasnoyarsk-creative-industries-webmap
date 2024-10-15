@@ -1,14 +1,14 @@
 {
-    "website_title": "Велоинфраструктура Санкт-Петербурга",
-    "city": "Санкт-Петербург",
-    "city_en": "Saint Petersburg",
-    "center": [59.933, 30.317],
-    "zoom": 11,
-    "minZoom": 9,
+    "website_title": "Креативная экономика Красноярского края",
+    "city": "Красноярск",
+    "city_en": "Krasnoyarsk",
+    "center": [72, 90],
+    "zoom": 3.5,
+    "minZoom": 2,
     "maxZoom": 19,
     "extent": [
-        [59.341438, 28.3610966],
-        [60.523476, 32.3242033]
+        [40, 40],
+        [90, 140]
     ],
     "basemaps": [
         "CartoDB.Positron",
@@ -19,6 +19,16 @@
     "baselayer_bw": "http://{s}.www.toolserver.org/tiles/bw-mapnik/{z}/{x}/{y}.png",
     "baselayer_carto": "https://{s}.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}.png",
     "layers": [
+        {
+            "name": "Муниципальные образования",
+            "source": "mo.geojson",
+            "group": "Границы",
+            "groupHeader": false,
+            "style": "bounds_mo",
+            "onByDef": true,
+            "infobox": false,
+            "popup": true
+        },
         {
             "name": "Существующая велоинфраструктура",
             "source": "existing_planned.geojson",

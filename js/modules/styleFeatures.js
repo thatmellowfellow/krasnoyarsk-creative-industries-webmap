@@ -2,9 +2,17 @@
 export function styleFeatures(obj, type) {
     let style = {};
     style.weight = 2;
+    if (["ul", "ip"].includes(type)) {
+        style.color = "red";
+    } else if (type == "bounds_mo") {
+        style.color = "#7d8b8f";
+        style.opacity = 0.7;
+        style.fillOpacity = 0;
+        style.dashArray = "5, 5";
+    }
     //OTS с классификацией
     //Цвет и наличие штриховки: тип велоинфраструктуры
-    if (type == "OTSlab") {
+    else if (type == "OTSlab") {
         if (~obj.properties.title.indexOf("ланир")) {
             style.color = "#808080";
         } else if (
