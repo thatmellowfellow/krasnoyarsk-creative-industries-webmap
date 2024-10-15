@@ -39,21 +39,10 @@
 
 
 .leaflet-control-layers-header-icon {
-    height: 50px;
+    height: 60px;
     width: auto;
-}
-
-.icon-left {
-    transform: rotateY(180deg);
     margin-right: 15px;
-}
 
-.icon-right {
-    height: 35px;
-    width: auto;
-    box-sizing: content-box;
-    padding: 15px;
-    border-left: 2px solid black;
 }
 
 .leaflet-control-layers-header-openbutton {
