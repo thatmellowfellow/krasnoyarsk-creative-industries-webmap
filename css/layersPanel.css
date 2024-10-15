@@ -20,6 +20,10 @@
     margin: 0 !important;
 }
 
+.leaflet-control-layers-header {
+    margin: 0;
+}
+
 @media screen and (max-width: 576px) {
     .leaflet-control-layers-header {
         font-size: 1rem;
