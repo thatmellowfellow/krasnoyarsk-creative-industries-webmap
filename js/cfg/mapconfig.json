@@ -28,6 +28,7 @@
             "onByDef": true,
             "infobox": true,
             "markersCluster": true,
+            "tooltip": true,
             "zIndex": 410
         },
         {
@@ -39,6 +40,7 @@
             "onByDef": false,
             "infobox": true,
             "markersCluster": true,
+            "tooltip": true,
             "zIndex": 420
         },
         {
@@ -49,7 +51,7 @@
             "style": "bounds_mo",
             "onByDef": true,
             "infobox": false,
-            "tooltip": true,
+            "label": true,
             "zIndex": 405
         }
     ]
