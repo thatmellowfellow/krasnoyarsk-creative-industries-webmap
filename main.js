@@ -16,6 +16,12 @@ function highlight(layer) {
         layer.setStyle({
             weight: 4,
         });
+    } else if (~geomType.indexOf("point")) {
+        layer.setStyle({
+            radius: 8,
+            opacity: 0.8,
+            fillOpacity: 1,
+        });
     }
     if (!L.Browser.ie && !L.Browser.opera) {
         layer.bringToFront();
@@ -30,6 +36,12 @@ function dehighlight(layer, lyrId) {
         if (~geomType.indexOf("polygon")) {
             layer.setStyle({
                 weight: 2,
+            });
+        } else if (~geomType.indexOf("point")) {
+            layer.setStyle({
+                radius: 6,
+                opacity: 0.6,
+                fillOpacity: 0.8,
             });
         }
     }
@@ -129,6 +141,11 @@ scale.textContent = scale.textContent.replace("km", "км").replace("m", "м");
 let geoData = [];
 let markersClusters = {};
 for (let lyrId in cfg.layers) {
+    // Используем pane для контроля порядка слоёв
+    map.createPane(lyrId);
+    if (cfg.layers[lyrId].zIndex) {
+        map.getPane(lyrId).style.zIndex = cfg.layers[lyrId].zIndex;
+    }
     let pathToLyr = "sourcedata/mylayers/" + cfg.layers[lyrId].source;
     // Если нужны кластеры маркеров, то инициализируем
     if (cfg.layers[lyrId].markersCluster) {
@@ -138,7 +155,10 @@ for (let lyrId in cfg.layers) {
         // Стилизация точечного слоя
         pointToLayer: (feature, latlon) => {
             let markerStyle = styleFeatures(feature, cfg.layers[lyrId].style);
-            let circleMarker = L.circleMarker(latlon, markerStyle);
+            let circleMarker = L.circleMarker(latlon, {
+                ...markerStyle,
+                pane: lyrId,
+            });
             if (cfg.layers[lyrId].markersCluster) {
                 // Если нужны кластеры маркеров, добавляем данные в них
                 return markersClusters[lyrId].addLayer(circleMarker);
@@ -152,7 +172,7 @@ for (let lyrId in cfg.layers) {
         },
         //Настраиваем интерактивность
         onEachFeature: (feature, layer) => {
-            if (cfg.layers[lyrId].popup) {
+            if (cfg.layers[lyrId].tooltip) {
                 layer
                     .bindTooltip(feature.properties.name, {
                         direction: "center",
@@ -174,6 +194,7 @@ for (let lyrId in cfg.layers) {
                 },
             });
         },
+        pane: lyrId,
     });
     geoData[lyrId].on("data:loaded", () => {
         layerControl.addOverlay(geoData[lyrId], cfg.layers[lyrId].name);

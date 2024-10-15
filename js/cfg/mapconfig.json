@@ -27,7 +27,8 @@
             "style": "ul",
             "onByDef": true,
             "infobox": true,
-            "markersCluster": true
+            "markersCluster": true,
+            "zIndex": 410
         },
         {
             "name": "Индивидуальные предприниматели",
@@ -37,7 +38,8 @@
             "style": "ip",
             "onByDef": false,
             "infobox": true,
-            "markersCluster": true
+            "markersCluster": true,
+            "zIndex": 420
         },
         {
             "name": "Муниципальные образования",
@@ -47,7 +49,8 @@
             "style": "bounds_mo",
             "onByDef": true,
             "infobox": false,
-            "popup": true
+            "tooltip": true,
+            "zIndex": 405
         }
     ]
 }
