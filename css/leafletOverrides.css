@@ -27,6 +27,11 @@
     text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
 }
 
+/* Dumb way to access bounds layer */
+path.leaflet-interactive[stroke="#7d8b8f"] {
+    cursor: auto;
+}
+
 path.leaflet-interactive:focus {
     outline: none;
 }
