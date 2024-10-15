@@ -35,3 +35,9 @@ path.leaflet-interactive[stroke="#7d8b8f"] {
 path.leaflet-interactive:focus {
     outline: none;
 }
+
+.leaflet-touch .leaflet-control-attribution,
+.leaflet-touch .leaflet-control-layers,
+.leaflet-touch .leaflet-bar {
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.35)
+}
