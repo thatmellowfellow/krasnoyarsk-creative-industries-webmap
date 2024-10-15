@@ -125,21 +125,26 @@ scale.textContent = scale.textContent.replace("km", "км").replace("m", "м");
     });
 });
 
-//Загружаем geojson с велоинфраструктурой и задаём систему условных обозначений
+//Загружаем geojson-ы и задаём систему условных обозначений
 let geoData = [];
+let markersClusters = {};
 for (let lyrId in cfg.layers) {
-    //console.log(cfg.layers[lyrId].name + ', ' + cfg.layers[lyrId].source + ' ' + lyrId);
     let pathToLyr = "sourcedata/mylayers/" + cfg.layers[lyrId].source;
     // Если нужны кластеры маркеров, то инициализируем
-    // if (cfg.layers[lyrId].markers) {let markers = L.markerClusterGroup();}
+    if (cfg.layers[lyrId].markersCluster) {
+        markersClusters[lyrId] = L.markerClusterGroup();
+    }
     geoData[lyrId] = new L.GeoJSON.AJAX(pathToLyr, {
         // Стилизация точечного слоя
         pointToLayer: (feature, latlon) => {
-            // if (feature.geometry.type) return null;
-            return L.circleMarker(
-                latlon,
-                styleFeatures(feature, cfg.layers[lyrId].style)
-            );
+            let markerStyle = styleFeatures(feature, cfg.layers[lyrId].style);
+            let circleMarker = L.circleMarker(latlon, markerStyle);
+            if (cfg.layers[lyrId].markersCluster) {
+                // Если нужны кластеры маркеров, добавляем данные в них
+                return markersClusters[lyrId].addLayer(circleMarker);
+            } else {
+                return circleMarker;
+            }
         },
         // Стилизация
         style: (feature) => {
@@ -174,15 +179,14 @@ for (let lyrId in cfg.layers) {
         layerControl.addOverlay(geoData[lyrId], cfg.layers[lyrId].name);
         //Модифицируем панель слоёв
         modifyLayersPanel();
-        // // Если нужны кластеры маркеров, то добавляем
-        // if (cfg.layers[lyrId].markers) {
-        // let markers = L.markerClusterGroup();
-        // markers.addLayer(L.marker(getRandomLatLng(map)));
-        // ... Add more layers ...
-        // map.addLayer(markers);
-        // }
         //Если в конфиге прописано отображения по умолчанию, то отображаем
-        if (cfg.layers[lyrId].onByDef) geoData[lyrId].addTo(map);
+        if (cfg.layers[lyrId].onByDef) {
+            // Если делали кластеры маркеров, то добавляем
+            if (cfg.layers[lyrId].markersCluster) {
+                markersClusters[lyrId].addTo(map);
+            }
+            geoData[lyrId].addTo(map);
+        }
     });
 
     //Навешиваем интерактивность на объекты: всплывающее окно
