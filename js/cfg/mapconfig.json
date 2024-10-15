@@ -20,6 +20,26 @@
     "baselayer_carto": "https://{s}.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}.png",
     "layers": [
         {
+            "name": "Юридические лица",
+            "source": "ul.geojson",
+            "group": "Экономические субъекты",
+            "groupHeader": false,
+            "style": "ul",
+            "onByDef": true,
+            "infobox": true,
+            "markers": true
+        },
+        {
+            "name": "Индивидуальные предприниматели",
+            "source": "ip.geojson",
+            "group": "Экономические субъекты",
+            "groupHeader": false,
+            "style": "ip",
+            "onByDef": true,
+            "infobox": true,
+            "markers": true
+        },
+        {
             "name": "Муниципальные образования",
             "source": "mo.geojson",
             "group": "Границы",
@@ -27,56 +47,6 @@
             "style": "bounds_mo",
             "onByDef": true,
             "infobox": false,
-            "popup": true
-        },
-        {
-            "name": "Существующая велоинфраструктура",
-            "source": "existing_planned.geojson",
-            "group": "Существующие и планируемые объекты",
-            "groupHeader": true,
-            "logo": "gcup.jpg",
-            "style": "existing",
-            "onByDef": true,
-            "infobox": true
-        },
-        {
-            "name": "Планируемая велоинфраструктура",
-            "source": "existing_planned.geojson",
-            "group": "Существующие и планируемые объекты",
-            "logo": "gcup.jpg",
-            "style": "planned",
-            "onByDef": true,
-            "infobox": true
-        },
-        {
-            "name": "Предложения OTS Lab",
-            "source": "veloSpb.geojson",
-            "group": "Актуальные схемы развития",
-            "groupHeader": true,
-            "logo": "otslab.jpg",
-            "style": "OTSlab",
-            "onByDef": false,
-            "legend": true,
-            "infobox": true
-        },
-        {
-            "name": "Схема развития движения «Велосипедизация СПб»",
-            "source": "velosipedization2015_lines.geojson",
-            "group": "Устаревшие схемы развития",
-            "groupHeader": true,
-            "logo": "velosipedization.jpg",
-            "style": "Velosipedization",
-            "legend": true,
-            "infobox": true
-        },
-        {
-            "name": "Исследование «Восприятие поездок на велосипеде», ИТМО, 2022",
-            "source": "study_veloperception_2022.geojson",
-            "group": "Прочее",
-            "groupHeader": true,
-            "logo": "velosipedization.jpg",
-            "style": "study_veloperception",
-            "legend": true,
             "popup": true
         }
     ]

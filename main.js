@@ -11,7 +11,7 @@ import { modifyLayersPanel } from "./js/modules/modifyLayersPanel.js";
 //Наведение, клик, деклик на выбранный объект
 function highlight(layer) {
     let geomType = layer.feature.geometry.type.toLowerCase();
-    //Если линейный объект
+    //Если полигональный объект
     if (~geomType.indexOf("polygon")) {
         layer.setStyle({
             fillOpacity: 0.15,
@@ -27,7 +27,7 @@ function dehighlight(layer, lyrId) {
         //Не работает при переключении между слоями
         //geoData[lyrId].resetStyle(layer);
         let geomType = layer.feature.geometry.type.toLowerCase();
-        //Если линейный объект
+        //Если полигональный объект
         if (~geomType.indexOf("polygon")) {
             layer.setStyle({
                 fillOpacity: 0,
@@ -132,7 +132,18 @@ let geoData = [];
 for (let lyrId in cfg.layers) {
     //console.log(cfg.layers[lyrId].name + ', ' + cfg.layers[lyrId].source + ' ' + lyrId);
     let pathToLyr = "sourcedata/mylayers/" + cfg.layers[lyrId].source;
+    // Если нужны кластеры маркеров, то инициализируем
+    // if (cfg.layers[lyrId].markers) {let markers = L.markerClusterGroup();}
     geoData[lyrId] = new L.GeoJSON.AJAX(pathToLyr, {
+        // Стилизация точечного слоя
+        pointToLayer: (feature, latlon) => {
+            // if (feature.geometry.type) return null;
+            return L.circleMarker(
+                latlon,
+                styleFeatures(feature, cfg.layers[lyrId].style)
+            );
+        },
+        // Стилизация
         style: (feature) => {
             return styleFeatures(feature, cfg.layers[lyrId].style);
         },
@@ -165,6 +176,13 @@ for (let lyrId in cfg.layers) {
         layerControl.addOverlay(geoData[lyrId], cfg.layers[lyrId].name);
         //Модифицируем панель слоёв
         modifyLayersPanel();
+        // // Если нужны кластеры маркеров, то добавляем
+        // if (cfg.layers[lyrId].markers) {
+        // let markers = L.markerClusterGroup();
+        // markers.addLayer(L.marker(getRandomLatLng(map)));
+        // ... Add more layers ...
+        // map.addLayer(markers);
+        // }
         //Если в конфиге прописано отображения по умолчанию, то отображаем
         if (cfg.layers[lyrId].onByDef) geoData[lyrId].addTo(map);
     });
