@@ -27,7 +27,7 @@
             "style": "ul",
             "onByDef": true,
             "infobox": true,
-            "markers": true
+            "markersCluster": true
         },
         {
             "name": "Индивидуальные предприниматели",
@@ -35,9 +35,9 @@
             "group": "Экономические субъекты",
             "groupHeader": false,
             "style": "ip",
-            "onByDef": true,
+            "onByDef": false,
             "infobox": true,
-            "markers": true
+            "markersCluster": true
         },
         {
             "name": "Муниципальные образования",
