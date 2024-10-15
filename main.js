@@ -14,7 +14,6 @@ function highlight(layer) {
     //Если полигональный объект
     if (~geomType.indexOf("polygon")) {
         layer.setStyle({
-            fillOpacity: 0.15,
             weight: 4,
         });
     }
@@ -30,7 +29,6 @@ function dehighlight(layer, lyrId) {
         //Если полигональный объект
         if (~geomType.indexOf("polygon")) {
             layer.setStyle({
-                fillOpacity: 0,
                 weight: 2,
             });
         }
