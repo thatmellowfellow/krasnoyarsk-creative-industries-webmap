@@ -1,6 +1,7 @@
 .leaflet-control-layers-overlays input {
     margin-left: -2.25em !important;
 }
+
 .carousel.slide {
     width: 100%;
 }
@@ -12,7 +13,8 @@
     height: 320px;
 }
 
-.carousel-item-prev, .carousel-item-next {
+.carousel-item-prev,
+.carousel-item-next {
     display: flex;
 }
 
@@ -20,7 +22,7 @@
     display: flex;
 }
 
-.carousel-item > img {
+.carousel-item>img {
     width: auto;
     max-width: 100%;
     min-height: 100%;
@@ -29,9 +31,15 @@
     object-fit: cover;
 }
 
-.carousel-control-prev-icon, .carousel-control-next-icon {
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
     background-color: rgba(0, 0, 0, 0);
     box-sizing: content-box;
     padding: 3px 0;
     border-radius: 5px;
+}
+
+.entity-tooltip td,
+.entity-tooltip th {
+    white-space: normal;
 }

@@ -29,7 +29,7 @@
 
 /* Dumb way to access bounds layer */
 path.leaflet-interactive[stroke="#7d8b8f"] {
-    cursor: auto;
+    cursor: grab;
 }
 
 path.leaflet-interactive:focus {

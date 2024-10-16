@@ -84,7 +84,7 @@ let map = L.map("mapid", {
     minZoom: cfg.minZoom,
     maxZoom: cfg.maxZoom,
     zoomControl: false,
-    zoomSnap: 0.25,
+    zoomSnap: 0.5,
 }).setView(cfg.center, cfg.zoom);
 
 //Кнопки масштаба
@@ -173,7 +173,7 @@ for (let lyrId in cfg.layers) {
             // Инфа о лице
             if (cfg.layers[lyrId].tooltip) {
                 let toolTipContent = `
-                <table class="table table-hover">
+                <table class="entity-tooltip table table-hover">
                     <tbody>
                         <tr>
                             <th scope="row">Наименование</th>
@@ -190,7 +190,6 @@ for (let lyrId in cfg.layers) {
                     </tbody>
                     </table>`;
                 layer.bindTooltip(toolTipContent, {
-                    direction: "auto",
                     interactive: true,
                     className: "entity-tooltip",
                 });
