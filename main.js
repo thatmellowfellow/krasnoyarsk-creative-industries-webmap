@@ -104,20 +104,12 @@ let layerControl = L.control
         collapsed: false,
         position: "topleft",
         sortLayers: true,
-        sortFunction: (layerA, layerB, nameA, nameB) => {
+        sortFunction: (layerA, _, nameA, nameB) => {
             // Если это слой, а не подложка
-            if (layerA.urls) {
-                let layerA_Index = cfg.layers.findIndex((element) => {
-                    if (element.name == nameA) {
-                        return true;
-                    }
-                });
-                let layerB_Index = cfg.layers.findIndex((element) => {
-                    if (element.name == nameB) {
-                        return true;
-                    }
-                });
-                return layerA_Index - layerB_Index;
+            if (layerA.urls || layerA._markerCluster) {
+                let idxA = cfg.layers.findIndex((el) => el.name == nameA);
+                let idxB = cfg.layers.findIndex((el) => el.name == nameB);
+                return idxA - idxB;
             } else {
                 return 0;
             }
@@ -163,12 +155,7 @@ for (let lyrId in cfg.layers) {
                 ...markerStyle,
                 pane: lyrId,
             });
-            if (cfg.layers[lyrId].markersCluster) {
-                // Если нужны кластеры маркеров, добавляем данные в них
-                return markersClusters[lyrId].addLayer(circleMarker);
-            } else {
-                return circleMarker;
-            }
+            return circleMarker;
         },
         // Стилизация
         style: (feature) => {
@@ -178,12 +165,10 @@ for (let lyrId in cfg.layers) {
         onEachFeature: (feature, layer) => {
             // Надпись МО
             if (cfg.layers[lyrId].label) {
-                layer
-                    .bindTooltip(feature.properties.name, {
-                        direction: "center",
-                        className: "bounds-tooltip",
-                    })
-                    .openTooltip();
+                layer.bindTooltip(feature.properties.name, {
+                    direction: "center",
+                    className: "bounds-tooltip",
+                });
             }
             // Инфа о лице
             if (cfg.layers[lyrId].tooltip) {
@@ -204,12 +189,11 @@ for (let lyrId in cfg.layers) {
                         </tr>
                     </tbody>
                     </table>`;
-                layer
-                    .bindTooltip(toolTipContent, {
-                        interactive: true,
-                        className: "entity-tooltip",
-                    })
-                    .openTooltip();
+                layer.bindTooltip(toolTipContent, {
+                    direction: "auto",
+                    interactive: true,
+                    className: "entity-tooltip",
+                });
             }
             layer.on({
                 mouseover: (e) => {
@@ -223,16 +207,26 @@ for (let lyrId in cfg.layers) {
         pane: lyrId,
     });
     geoData[lyrId].on("data:loaded", () => {
-        layerControl.addOverlay(geoData[lyrId], cfg.layers[lyrId].name);
+        if (cfg.layers[lyrId].markersCluster) {
+            markersClusters[lyrId].addLayer(geoData[lyrId]);
+            // Если имеем кластеры маркеров, добавляем их
+            layerControl.addOverlay(
+                markersClusters[lyrId],
+                cfg.layers[lyrId].name
+            );
+        } else {
+            layerControl.addOverlay(geoData[lyrId], cfg.layers[lyrId].name);
+        }
         //Модифицируем панель слоёв
         modifyLayersPanel();
         //Если в конфиге прописано отображения по умолчанию, то отображаем
         if (cfg.layers[lyrId].onByDef) {
             // Если делали кластеры маркеров, то добавляем
             if (cfg.layers[lyrId].markersCluster) {
-                markersClusters[lyrId].addTo(map);
+                map.addLayer(markersClusters[lyrId]);
+            } else {
+                map.addLayer(geoData[lyrId]);
             }
-            geoData[lyrId].addTo(map);
         }
     });
 }
