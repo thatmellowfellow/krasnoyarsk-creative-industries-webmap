@@ -7,6 +7,7 @@ import { styleFeatures } from "./js/modules/styleFeatures.js";
 //import { highlight, dehighlight, select } from './js/modules/featuresInteractions.js'
 import { getData } from "./js/modules/getData.js";
 import { modifyLayersPanel } from "./js/modules/modifyLayersPanel.js";
+import mapLegend from "./js/modules/mapLegend.js";
 
 //Наведение, клик, деклик на выбранный объект
 function highlight(layer) {
@@ -235,6 +236,10 @@ for (let lyrId in cfg.layers) {
         }
     });
 }
+// Легенда
+let legend = L.control({ position: "bottomright" });
+legend.onAdd = (map) => mapLegend(map);
+legend.addTo(map);
 
 //Всплывающее окно
 document.getElementById("v-infobox-closebutton").onclick = () => {
