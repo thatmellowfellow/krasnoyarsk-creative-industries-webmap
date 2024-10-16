@@ -1,28 +1,32 @@
 {
-  "name": "velospb-map",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.12.0",
-    "autoprefixer": "^10.4.20",
-    "cssnano": "^7.0.6",
-    "eslint": "^9.12.0",
-    "globals": "^15.11.0",
-    "postcss": "^8.4.47",
-    "postcss-cli": "^11.0.0",
-    "postcss-preset-env": "^10.0.6",
-    "prettier": "^3.3.3",
-    "sass": "^1.79.4",
-    "vite": "^5.4.8",
-    "vite-plugin-minify": "^2.0.0"
-  },
-  "dependencies": {
-    "leaflet.markercluster": "^1.5.3"
-  }
+    "name": "velospb-map",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "homepage": "https://thatmellowfellow.github.io/krasnoyarsk-creative-industries-webmap",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview",
+        "predeploy": "npm run build",
+        "deploy": "gh-pages -d dist"
+    },
+    "devDependencies": {
+        "@eslint/js": "^9.12.0",
+        "autoprefixer": "^10.4.20",
+        "cssnano": "^7.0.6",
+        "eslint": "^9.12.0",
+        "gh-pages": "^6.2.0",
+        "globals": "^15.11.0",
+        "postcss": "^8.4.47",
+        "postcss-cli": "^11.0.0",
+        "postcss-preset-env": "^10.0.6",
+        "prettier": "^3.3.3",
+        "sass": "^1.79.4",
+        "vite": "^5.4.8",
+        "vite-plugin-minify": "^2.0.0"
+    },
+    "dependencies": {
+        "leaflet.markercluster": "^1.5.3"
+    }
 }
