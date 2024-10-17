@@ -23,5 +23,5 @@ dist-ssr
 *.sln
 *.sw?
 
-# Папка с выгрузкой слоёв из qgis с помощью плагина (для условников)
-/qgis2web
+# Лишние папки
+sourcedata/featuredata
