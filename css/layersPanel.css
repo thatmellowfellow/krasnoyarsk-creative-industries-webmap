@@ -6,6 +6,7 @@
 
 .leaflet-control-layers-container {
     margin: 10px;
+    z-index: 1001;
 }
 
 .leaflet-control-layers-container-visible {
