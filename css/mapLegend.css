@@ -27,12 +27,12 @@
     background-color: white;
     box-shadow: 0 1px 5px rgba(0, 0, 0, .35);
     cursor: pointer;
-    transform: rotateX(0deg);
+    transform: rotateX(180deg);
     transition: transform 0.3s ease;
 }
 
-.legend-close-btn.collapsed {
-    transform: rotateX(180deg);
+.legend-close-btn:has(+ .legend-container.show) {
+    transform: rotateX(0deg);
 }
 
 
