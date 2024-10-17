@@ -189,17 +189,19 @@ for (let lyrId in cfg.layers) {
                         </tr>
                     </tbody>
                     </table>`;
-                layer.bindTooltip(toolTipContent, {
-                    interactive: true,
+                layer.bindPopup(toolTipContent, {
+                    // interactive: true,
                     className: "entity-tooltip",
                 });
             }
             layer.on({
                 mouseover: (e) => {
                     highlight(e.target);
+                    layer.openPopup();
                 },
                 mouseout: (e) => {
                     dehighlight(e.target, lyrId);
+                    layer.closePopup();
                 },
             });
         },
