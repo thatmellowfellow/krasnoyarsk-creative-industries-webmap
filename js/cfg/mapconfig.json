@@ -1,0 +1,58 @@
+{
+    "website_title": "Креативная индустрия Красноярского края",
+    "city": "Красноярск",
+    "city_en": "Krasnoyarsk",
+    "center": [72, 96],
+    "zoom": 3.5,
+    "minZoom": 2,
+    "maxZoom": 19,
+    "extent": [
+        [40, 40],
+        [90, 140]
+    ],
+    "basemaps": [
+        "CartoDB.Positron",
+        "Esri.WorldGrayCanvas",
+        "Esri.WorldImagery"
+    ],
+    "baselayer": "https://tile.openstreetmap.org/${z}/${x}/${y}.png",
+    "baselayer_bw": "http://{s}.www.toolserver.org/tiles/bw-mapnik/{z}/{x}/{y}.png",
+    "baselayer_carto": "https://{s}.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}.png",
+    "layers": [
+        {
+            "name": "Юридические лица",
+            "source": "ul.geojson",
+            "group": "Экономические субъекты",
+            "groupHeader": false,
+            "style": "ul",
+            "onByDef": true,
+            "infobox": true,
+            "markersCluster": true,
+            "tooltip": true,
+            "zIndex": 410
+        },
+        {
+            "name": "Индивидуальные предприниматели",
+            "source": "ip.geojson",
+            "group": "Экономические субъекты",
+            "groupHeader": false,
+            "style": "ip",
+            "onByDef": false,
+            "infobox": true,
+            "markersCluster": true,
+            "tooltip": true,
+            "zIndex": 420
+        },
+        {
+            "name": "Муниципальные образования",
+            "source": "mo.geojson",
+            "group": "Границы",
+            "groupHeader": false,
+            "style": "bounds_mo",
+            "onByDef": true,
+            "infobox": false,
+            "label": true,
+            "zIndex": 405
+        }
+    ]
+}
