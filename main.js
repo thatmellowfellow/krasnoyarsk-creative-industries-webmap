@@ -216,8 +216,6 @@ for (let lyrId in cfg.layers) {
         } else {
             layerControl.addOverlay(geoData[lyrId], cfg.layers[lyrId].name);
         }
-        //Модифицируем панель слоёв
-        modifyLayersPanel();
         //Если в конфиге прописано отображения по умолчанию, то отображаем
         if (cfg.layers[lyrId].onByDef) {
             // Если делали кластеры маркеров, то добавляем
@@ -227,6 +225,8 @@ for (let lyrId in cfg.layers) {
                 map.addLayer(geoData[lyrId]);
             }
         }
+        //Модифицируем панель слоёв
+        modifyLayersPanel();
     });
 }
 // Легенда

@@ -1,5 +1,3 @@
-import { legendLayers } from "./legend.js";
-
 export function modifyLayersPanel() {
     let layersContainer = document.querySelector(".leaflet-top.leaflet-left");
     layersContainer.classList.add("leaflet-control-layers-container");
@@ -58,27 +56,6 @@ export function modifyLayersPanel() {
     );
 
     for (let span of children) {
-        //Добавляем таблицы с условниками в окно слоёв
-        for (let layer in legendLayers) {
-            //Если название слоя в панели слоёв совпадает с названием слоя из файла с условниками, то вставляем условники сразу после него
-            if (span.textContent.trim() == layer) {
-                span.insertAdjacentHTML("beforeend", legendLayers[layer]);
-                //Даём условникам атрибут по названию слоя
-                span.getElementsByClassName(
-                    "leaflet-control-layer-legend"
-                )[0].setAttribute("layer", layer);
-                //Здесь же добавляем категории слоёв
-                let groupName = cfg.layers.filter((lyr) => {
-                    return lyr.name == layer;
-                })[0];
-                if (groupName.groupHeader)
-                    span.parentElement.insertAdjacentHTML(
-                        "beforebegin",
-                        `<h6>${groupName.group}</h6>`
-                    );
-                break;
-            }
-        }
         //Добавляем bootstrap-стиль для чекбоксов
         span.classList.add("form-check", "form-switch");
         let checkbox = span.getElementsByTagName("input")[0];
