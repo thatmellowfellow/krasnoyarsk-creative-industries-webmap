@@ -24,7 +24,8 @@
         "prettier": "^3.3.3",
         "sass": "^1.79.4",
         "vite": "^5.4.8",
-        "vite-plugin-minify": "^2.0.0"
+        "vite-plugin-minify": "^2.0.0",
+        "vite-plugin-static-copy": "^2.0.0"
     },
     "dependencies": {
         "leaflet.markercluster": "^1.5.3"
