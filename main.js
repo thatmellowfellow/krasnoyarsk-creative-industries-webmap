@@ -141,7 +141,12 @@ for (let lyrId in cfg.layers) {
         markersClusters[lyrId] = L.markerClusterGroup({
             showCoverageOnHover: false,
             disableClusteringAtZoom: 16,
-            maxClusterRadius: 27,
+            maxClusterRadius: (zoom) => {
+                if (zoom < 8.5) return 27;
+                else if (zoom < 11.5) return 33;
+                else if (zoom < 14.5) return 39;
+                else return 50;
+            },
             // iconCreateFunction: (cluster) => {
             //     return L.divIcon({
             //         html: "<b>" + cluster.getChildCount() + "</b>",
