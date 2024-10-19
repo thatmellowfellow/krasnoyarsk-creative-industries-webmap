@@ -8,9 +8,10 @@ export function styleFeatures(obj, type) {
             ...style,
             radius: 6,
             fillColor: obj.properties["Цвет категории"],
-            color: "#545454",
-            opacity: 0.6,
-            fillOpacity: 0.8,
+            color: "#212121",
+            opacity: 0.7,
+            fillOpacity: 1,
+            weight: 2,
         };
     } else if (type == "bounds_mo") {
         style = {

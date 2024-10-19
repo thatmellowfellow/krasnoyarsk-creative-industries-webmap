@@ -40,8 +40,8 @@ function dehighlight(layer, lyrId) {
         } else if (~geomType.indexOf("point")) {
             layer.setStyle({
                 radius: 6,
-                opacity: 0.6,
-                fillOpacity: 0.8,
+                opacity: 0.7,
+                fillOpacity: 1,
             });
         }
     }
@@ -143,7 +143,7 @@ for (let lyrId in cfg.layers) {
     if (cfg.layers[lyrId].markersCluster) {
         markersClusters[lyrId] = L.markerClusterGroup({
             showCoverageOnHover: false,
-            disableClusteringAtZoom: 17,
+            disableClusteringAtZoom: 16,
         });
     }
     geoData[lyrId] = new L.GeoJSON.AJAX(pathToLyr, {
