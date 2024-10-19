@@ -20,8 +20,6 @@ function highlight(layer) {
     } else if (~geomType.indexOf("point")) {
         layer.setStyle({
             radius: 8,
-            opacity: 0.8,
-            fillOpacity: 1,
         });
     }
     if (!L.Browser.ie && !L.Browser.opera) {
@@ -41,8 +39,6 @@ function dehighlight(layer, lyrId) {
         } else if (~geomType.indexOf("point")) {
             layer.setStyle({
                 radius: 6,
-                opacity: 0.7,
-                fillOpacity: 1,
             });
         }
     }
