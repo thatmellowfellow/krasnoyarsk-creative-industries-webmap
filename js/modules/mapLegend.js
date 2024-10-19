@@ -43,7 +43,7 @@ export default function mapLegend(_) {
     <i title="Условные обозначения" class="legend-close-btn btn btn-light btn-sm fa-solid fa-angle-down" data-bs-toggle="collapse" data-bs-target="#collapseLegend" aria-expanded="true"></i>
     <div class="legend-container collapse ${localStorage.getItem("isLegendOpen") == "1" ? "show" : ""}" id="collapseLegend">
         <div style="justify-content: space-between">
-            <h6 class="legend-header">Отрасли креативных индустрий</h6>
+            <h6 class="legend-header">Предприятия креативных индустрий</h6>
         </div>
         ${legendContents}
     </div>`;
