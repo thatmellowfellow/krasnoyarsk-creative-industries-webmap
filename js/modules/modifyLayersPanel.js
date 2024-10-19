@@ -1,6 +1,9 @@
+// import onClassChange from "./classChangeObserver.js";
+
 export function modifyLayersPanel() {
     let layersContainer = document.querySelector(".leaflet-top.leaflet-left");
     layersContainer.classList.add("leaflet-control-layers-container");
+    // if (localStorage.getItem("isLayersPanelOpen") == "1") layersContainer.classList.add("leaflet-control-layers-container-visible");
     let layersList = document.getElementsByClassName(
         "leaflet-control-layers-list"
     )[0];
@@ -62,4 +65,12 @@ export function modifyLayersPanel() {
         checkbox.classList.add("form-check-input");
         checkbox.setAttribute("role", "switch");
     }
+
+    // Сохранение статуса панели слоёв в localstorage
+    // onClassChange(layersContainer, (_) => {
+    //     localStorage.setItem(
+    //         "isLayersPanelOpen",
+    //         layersContainer.classList.contains("leaflet-control-layers-container-visible") ? 1 : 0
+    //     );
+    // });
 }

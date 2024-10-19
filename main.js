@@ -7,6 +7,7 @@ import { styleFeatures } from "./js/modules/styleFeatures.js";
 import { getData } from "./js/modules/getData.js";
 import { modifyLayersPanel } from "./js/modules/modifyLayersPanel.js";
 import mapLegend from "./js/modules/mapLegend.js";
+import onClassChange from "./js/modules/classChangeObserver.js";
 
 //Наведение, клик, деклик на выбранный объект
 function highlight(layer) {
@@ -244,28 +245,8 @@ document.getElementById("v-infobox-closebutton").onclick = () => {
 
 // Сохранение статуса легенды в localstorage
 const legendContainer = document.querySelector(".legend-container");
-function onClassChange(node, callback) {
-    let lastClassString = node.classList.toString();
 
-    const mutationObserver = new MutationObserver((mutationList) => {
-        for (const item of mutationList) {
-            if (item.attributeName === "class") {
-                const classString = node.classList.toString();
-                if (classString !== lastClassString) {
-                    callback(mutationObserver);
-                    lastClassString = classString;
-                    break;
-                }
-            }
-        }
-    });
-
-    mutationObserver.observe(node, { attributes: true });
-
-    return mutationObserver;
-}
-
-onClassChange(legendContainer, (observer) => {
+onClassChange(legendContainer, (_) => {
     localStorage.setItem(
         "isLegendOpen",
         legendContainer.classList.contains("show") ? 1 : 0
