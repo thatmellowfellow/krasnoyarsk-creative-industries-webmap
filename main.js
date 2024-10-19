@@ -4,7 +4,6 @@ import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 //Импортируем функции из модулей
 import { styleFeatures } from "./js/modules/styleFeatures.js";
-//import { highlight, dehighlight, select } from './js/modules/featuresInteractions.js'
 import { getData } from "./js/modules/getData.js";
 import { modifyLayersPanel } from "./js/modules/modifyLayersPanel.js";
 import mapLegend from "./js/modules/mapLegend.js";
