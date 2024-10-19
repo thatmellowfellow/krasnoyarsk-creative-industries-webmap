@@ -71,8 +71,8 @@ document.title = cfg.website_title;
 
 // Подложки в контроль слоёв
 let basemaps = {};
-for (let b in cfg.basemaps) {
-    basemaps[cfg.basemaps[b]] = L.tileLayer.provider(cfg.basemaps[b]);
+for (const [alias, name] of Object.entries(cfg.basemaps)) {
+    basemaps[alias] = L.tileLayer.provider(name);
 }
 
 // Создаём карту, ставим начальное положение и масштаб, мин. и макс. масштаб, охват; загружаем подложки
