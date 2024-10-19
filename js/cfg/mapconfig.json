@@ -2,9 +2,9 @@
     "website_title": "Креативные индустрии Красноярского края",
     "city": "Красноярск",
     "city_en": "Krasnoyarsk",
-    "center": [72, 96],
-    "zoom": 3.5,
-    "minZoom": 2,
+    "center": [67, 93],
+    "zoom": 4,
+    "minZoom": 3.5,
     "maxZoom": 19,
     "extent": [
         [40, 40],

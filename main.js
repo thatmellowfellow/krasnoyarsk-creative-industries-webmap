@@ -141,6 +141,14 @@ for (let lyrId in cfg.layers) {
         markersClusters[lyrId] = L.markerClusterGroup({
             showCoverageOnHover: false,
             disableClusteringAtZoom: 16,
+            maxClusterRadius: 27,
+            // iconCreateFunction: (cluster) => {
+            //     return L.divIcon({
+            //         html: "<b>" + cluster.getChildCount() + "</b>",
+            //         className: "marker-cluster",
+            //         iconSize: new L.Point(40, 40),
+            //     });
+            // },
         });
     }
     geoData[lyrId] = new L.GeoJSON.AJAX(pathToLyr, {
