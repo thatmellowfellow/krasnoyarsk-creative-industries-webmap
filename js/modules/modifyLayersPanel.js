@@ -1,6 +1,9 @@
+// import onClassChange from "./classChangeObserver.js";
+
 export function modifyLayersPanel() {
     let layersContainer = document.querySelector(".leaflet-top.leaflet-left");
     layersContainer.classList.add("leaflet-control-layers-container");
+    // if (localStorage.getItem("isLayersPanelOpen") == "1") layersContainer.classList.add("leaflet-control-layers-container-visible");
     let layersList = document.getElementsByClassName(
         "leaflet-control-layers-list"
     )[0];
@@ -16,7 +19,7 @@ export function modifyLayersPanel() {
 
     //Делаем подписи
     let layersPanelHeaderHTML =
-        "<div class='leaflet-control-layers-header-container'><img src='./sourcedata/logos/kk_coa.png' class='leaflet-control-layers-header-icon'/><h4 class='leaflet-control-layers-header'>Креативная индустрия<br/>Красноярского края</h4><button type='button' aria-label='Закрыть' id='layers-panel-close-button' class='leaflet-control-layers-header-closebutton leaflet-control-layers-header-closebutton-flipped btn btn-light btn-sm'><i class=\"fa-solid fa-xmark\"></button></div>";
+        "<div class='leaflet-control-layers-header-container'><img src='./sourcedata/logos/kk_coa.png' class='leaflet-control-layers-header-icon'/><h4 class='leaflet-control-layers-header'>Креативные индустрии<br/>Красноярского края</h4><button type='button' aria-label='Закрыть' id='layers-panel-close-button' class='leaflet-control-layers-header-closebutton leaflet-control-layers-header-closebutton-flipped btn btn-light btn-sm'><i class=\"fa-solid fa-xmark\"></button></div>";
     basemapsGroup.insertAdjacentHTML(
         "afterbegin",
         "<h6>Картографическая основа</h6>"
@@ -62,4 +65,12 @@ export function modifyLayersPanel() {
         checkbox.classList.add("form-check-input");
         checkbox.setAttribute("role", "switch");
     }
+
+    // Сохранение статуса панели слоёв в localstorage
+    // onClassChange(layersContainer, (_) => {
+    //     localStorage.setItem(
+    //         "isLayersPanelOpen",
+    //         layersContainer.classList.contains("leaflet-control-layers-container-visible") ? 1 : 0
+    //     );
+    // });
 }

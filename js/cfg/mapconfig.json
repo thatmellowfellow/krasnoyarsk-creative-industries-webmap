@@ -1,23 +1,16 @@
 {
-    "website_title": "Креативная индустрия Красноярского края",
+    "website_title": "Креативные индустрии Красноярского края",
     "city": "Красноярск",
     "city_en": "Krasnoyarsk",
-    "center": [72, 96],
-    "zoom": 3.5,
-    "minZoom": 2,
+    "center": [67, 93],
+    "zoom": 4,
+    "minZoom": 3.5,
     "maxZoom": 19,
     "extent": [
         [40, 40],
         [90, 140]
     ],
-    "basemaps": [
-        "CartoDB.Positron",
-        "Esri.WorldGrayCanvas",
-        "Esri.WorldImagery"
-    ],
-    "baselayer": "https://tile.openstreetmap.org/${z}/${x}/${y}.png",
-    "baselayer_bw": "http://{s}.www.toolserver.org/tiles/bw-mapnik/{z}/{x}/{y}.png",
-    "baselayer_carto": "https://{s}.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}.png",
+    "basemaps": { "Карта": "CartoDB.Positron", "Спутник": "Esri.WorldImagery" },
     "layers": [
         {
             "name": "Юридические лица",
